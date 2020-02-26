@@ -1,5 +1,5 @@
 //
-//  PickPokeCell.swift
+//  PokeCell.swift
 //  Pika
 //
 //  Created by Kerby Jean on 2/26/20.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-class PickPokeCell: UICollectionViewCell {
+class PokeCell: UICollectionViewCell {
+    
     
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var chooseButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
     
     static var id: String {

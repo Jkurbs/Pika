@@ -9,43 +9,57 @@
 import UIKit
 import CoreData
 
-private let reuseIdentifier = "PickPokeCell"
 
-class PickPokemonVC: UICollectionViewController {
+class PickPokemonVC: UIViewController {
     
+    // MARK: - Properties
+    
+    var collectionView: UICollectionView!
+    
+    // MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        setupViews()
     }
     
-    // MARK: UICollectionViewDataSource
-    
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 0
-    }
-    
-    
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! PickPokeCell
+    func setupViews() {
+        let layout = UICollectionViewFlowLayout()
+        let width = (view.frame.width / 3) - 10
+        layout.itemSize = CGSize(width: width, height: width)
+        layout.sectionInset = UIEdgeInsets(top: 25, left: 5, bottom: 50, right: 5)
+        layout.minimumLineSpacing = 20
+        layout.minimumInteritemSpacing = 10
         
-        // Configure the cell
+        collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.register(PickPokeCell.self, forCellWithReuseIdentifier: PickPokeCell.id)
+        collectionView.backgroundColor = .white
+        
+        view.addSubview(collectionView)
+    }
+}
+
+// MARK: - UICollectionViewDelegate/UICollectionViewDataSource
+
+extension PickPokemonVC: UICollectionViewDelegate, UICollectionViewDataSource  {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PickPokeCell.id, for: indexPath) as? PickPokeCell else {return UICollectionViewCell()}
         return cell
     }
-}
-
-// MARK: UICollectionViewDelegate
-
-extension PickPokemonVC: NSFetchedResultsControllerDelegate {
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
     
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
 }
+
